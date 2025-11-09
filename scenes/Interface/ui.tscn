@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://dypo3brtdunqx"]
+
+[node name="UI" type="CanvasLayer"]
+
+[node name="ResetButton" type="Button" parent="."]
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="WinMessage" type="Label" parent="."]
+visible = false
+offset_right = 40.0
+offset_bottom = 23.0

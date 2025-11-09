@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4do3ueog2tj0"]
+
+[ext_resource type="Script" uid="uid://b5v31v3m72mak" path="res://scripts/game_board.gd" id="1_tqoos"]
+[ext_resource type="PackedScene" uid="uid://dypo3brtdunqx" path="res://scenes/Interface/ui.tscn" id="2_3wu0g"]
+
+[node name="GameBoard" type="Node2D"]
+script = ExtResource("1_tqoos")
+
+[node name="UI" parent="." instance=ExtResource("2_3wu0g")]
+
+[editable path="UI"]

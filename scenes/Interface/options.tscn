@@ -1,0 +1,70 @@
+[gd_scene load_steps=2 format=3 uid="uid://btf3phogm4kmj"]
+
+[ext_resource type="Script" uid="uid://ba2do47bqembb" path="res://scripts/Interface/options.gd" id="1_th7a0"]
+
+[node name="Options" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_th7a0")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Optionslbl" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Options"
+horizontal_alignment = 1
+
+[node name="Audio_Scroll" type="HScrollBar" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Mute" type="CheckBox" parent="VBoxContainer"]
+layout_mode = 2
+text = "Mute"
+
+[node name="Resolutionlbl" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Resolution"
+
+[node name="Resolution" type="OptionButton" parent="VBoxContainer"]
+layout_mode = 2
+selected = 0
+item_count = 3
+popup/item_0/text = "1152x648"
+popup/item_0/id = 0
+popup/item_1/text = "1080x720"
+popup/item_1/id = 1
+popup/item_2/text = "1920x1080"
+popup/item_2/id = 2
+
+[node name="WindowTypelbl" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Window Type"
+
+[node name="WindowType" type="OptionButton" parent="VBoxContainer"]
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "Windowed"
+popup/item_0/id = 0
+popup/item_1/text = "Full Screen"
+popup/item_1/id = 1
+
+[node name="Back" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Back"
+
+[connection signal="value_changed" from="VBoxContainer/Audio_Scroll" to="." method="_on_audio_scroll_value_changed"]
+[connection signal="toggled" from="VBoxContainer/Mute" to="." method="_on_mute_toggled"]
+[connection signal="item_selected" from="VBoxContainer/Resolution" to="." method="_on_resolution_item_selected"]
+[connection signal="item_selected" from="VBoxContainer/WindowType" to="." method="_on_window_type_item_selected"]
+[connection signal="pressed" from="VBoxContainer/Back" to="." method="_on_back_pressed"]
