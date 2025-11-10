@@ -1,0 +1,168 @@
+[gd_scene load_steps=28 format=3 uid="uid://bcbbs4vgqk8v0"]
+
+[ext_resource type="Script" uid="uid://ba84lwbj5fix4" path="res://scripts/main.gd" id="1_muem4"]
+[ext_resource type="Texture2D" uid="uid://dplxdmfbraqyi" path="res://assets/TileImages/tile1.png" id="1_sugp2"]
+[ext_resource type="Texture2D" uid="uid://cd2h6tcb1dapb" path="res://assets/TileImages/tile2.png" id="2_jyhfs"]
+[ext_resource type="Texture2D" uid="uid://ud05lljquiaa" path="res://assets/TileImages/tile3.png" id="3_tbgi4"]
+[ext_resource type="Texture2D" uid="uid://cnjpfe70dqipa" path="res://assets/TileImages/tile4.png" id="4_jkv2x"]
+[ext_resource type="Texture2D" uid="uid://bog1inonp5jo6" path="res://assets/TileImages/tile5.png" id="5_jbj1t"]
+[ext_resource type="Texture2D" uid="uid://ca4u0671dxeuv" path="res://assets/TileImages/tile6.png" id="6_muem4"]
+[ext_resource type="Texture2D" uid="uid://38vlhiopsqxl" path="res://assets/TileImages/tile7.png" id="7_dp3eg"]
+[ext_resource type="Texture2D" uid="uid://b1phg6qwigvux" path="res://assets/TileImages/tile8.png" id="8_0ld40"]
+[ext_resource type="Texture2D" uid="uid://deu1olqrnq3wv" path="res://assets/TileImages/tile9.png" id="9_gqmmt"]
+[ext_resource type="Texture2D" uid="uid://8e72x8qy2sn2" path="res://assets/TileImages/tile10.png" id="10_yc10j"]
+[ext_resource type="Texture2D" uid="uid://dif4klwvykrgy" path="res://assets/TileImages/tile11.png" id="11_jscy8"]
+[ext_resource type="Texture2D" uid="uid://dehh6kn7mdwiu" path="res://assets/TileImages/tile12.png" id="12_pm3ni"]
+[ext_resource type="Texture2D" uid="uid://b4giybxvfrty7" path="res://assets/TileImages/tile13.png" id="13_y6deb"]
+[ext_resource type="Texture2D" uid="uid://dmjah7x4dkdag" path="res://assets/TileImages/tile14.png" id="14_og1vs"]
+[ext_resource type="Texture2D" uid="uid://bi47q7uqhgs7r" path="res://assets/TileImages/tile15.png" id="15_2wyq8"]
+[ext_resource type="Texture2D" uid="uid://djc4cvhffsxtj" path="res://assets/TileImages/empty.png" id="16_jbj1t"]
+[ext_resource type="FontFile" uid="uid://ceax16kvcmkr2" path="res://assets/fonts/coco_chamel/Coco Chamel.ttf" id="18_jscy8"]
+[ext_resource type="Texture2D" uid="uid://coe8vr6mqce32" path="res://assets/buttons/1. Free Hologram Interface Wenrexa/1. Free Hologram Interface Wenrexa/Button 1/Button Normal.png" id="19_pm3ni"]
+[ext_resource type="Texture2D" uid="uid://c0ftsdqsnayuk" path="res://assets/buttons/1. Free Hologram Interface Wenrexa/1. Free Hologram Interface Wenrexa/Button 1/Button Active.png" id="20_y6deb"]
+[ext_resource type="Texture2D" uid="uid://h5soik240coc" path="res://assets/buttons/1. Free Hologram Interface Wenrexa/1. Free Hologram Interface Wenrexa/Button 1/Button Hover.png" id="21_og1vs"]
+[ext_resource type="Texture2D" uid="uid://dbns4nofp8eoq" path="res://assets/buttons/1. Free Hologram Interface Wenrexa/1. Free Hologram Interface Wenrexa/Icons/22.png" id="22_2wyq8"]
+[ext_resource type="Texture2D" uid="uid://18rpa34cewtc" path="res://assets/buttons/1. Free Hologram Interface Wenrexa/1. Free Hologram Interface Wenrexa/Icons/20.png" id="23_pm3ni"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tefeu"]
+size = Vector2(1000, 1000)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vxglm"]
+texture = ExtResource("19_pm3ni")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2f3dj"]
+texture = ExtResource("20_y6deb")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yq6so"]
+texture = ExtResource("21_og1vs")
+
+[node name="Main" type="Area2D"]
+script = ExtResource("1_muem4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(500, 500)
+shape = SubResource("RectangleShape2D_tefeu")
+
+[node name="Tile1" type="Sprite2D" parent="."]
+position = Vector2(125, 125)
+texture = ExtResource("1_sugp2")
+
+[node name="Tile2" type="Sprite2D" parent="."]
+position = Vector2(375, 125)
+texture = ExtResource("2_jyhfs")
+
+[node name="Tile3" type="Sprite2D" parent="."]
+position = Vector2(625, 125)
+texture = ExtResource("3_tbgi4")
+
+[node name="Tile4" type="Sprite2D" parent="."]
+position = Vector2(875, 125)
+texture = ExtResource("4_jkv2x")
+
+[node name="Tile5" type="Sprite2D" parent="."]
+position = Vector2(125, 375)
+texture = ExtResource("5_jbj1t")
+
+[node name="Tile6" type="Sprite2D" parent="."]
+position = Vector2(375, 375)
+texture = ExtResource("6_muem4")
+
+[node name="Tile7" type="Sprite2D" parent="."]
+position = Vector2(625, 375)
+texture = ExtResource("7_dp3eg")
+
+[node name="Tile8" type="Sprite2D" parent="."]
+position = Vector2(875, 375)
+texture = ExtResource("8_0ld40")
+
+[node name="Tile9" type="Sprite2D" parent="."]
+position = Vector2(125, 625)
+texture = ExtResource("9_gqmmt")
+
+[node name="Tile10" type="Sprite2D" parent="."]
+position = Vector2(375, 625)
+texture = ExtResource("10_yc10j")
+
+[node name="Tile11" type="Sprite2D" parent="."]
+position = Vector2(625, 625)
+texture = ExtResource("11_jscy8")
+
+[node name="Tile12" type="Sprite2D" parent="."]
+position = Vector2(875, 625)
+texture = ExtResource("12_pm3ni")
+
+[node name="Tile13" type="Sprite2D" parent="."]
+position = Vector2(125, 875)
+texture = ExtResource("13_y6deb")
+
+[node name="Tile14" type="Sprite2D" parent="."]
+position = Vector2(375, 875)
+texture = ExtResource("14_og1vs")
+
+[node name="Tile15" type="Sprite2D" parent="."]
+position = Vector2(625, 875)
+texture = ExtResource("15_2wyq8")
+
+[node name="Tile16" type="Sprite2D" parent="."]
+position = Vector2(875, 875)
+texture = ExtResource("16_jbj1t")
+
+[node name="Panel" type="Panel" parent="."]
+visible = false
+custom_minimum_size = Vector2(1000, 1000)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1000.0
+offset_bottom = 1000.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 134.0
+offset_right = 984.0
+offset_bottom = 385.0
+theme_override_fonts/font = ExtResource("18_jscy8")
+theme_override_font_sizes/font_size = 225
+text = "You Win"
+
+[node name="Button" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 162.0
+offset_top = 408.0
+offset_right = 728.0
+offset_bottom = 644.0
+theme_override_fonts/font = ExtResource("18_jscy8")
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxTexture_vxglm")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_2f3dj")
+theme_override_styles/hover = SubResource("StyleBoxTexture_yq6so")
+text = "Restart"
+icon = ExtResource("22_2wyq8")
+alignment = 0
+icon_alignment = 2
+expand_icon = true
+text_direction = 1
+
+[node name="Button2" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 169.0
+offset_top = 647.0
+offset_right = 735.0
+offset_bottom = 883.0
+theme_override_fonts/font = ExtResource("18_jscy8")
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxTexture_vxglm")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_2f3dj")
+theme_override_styles/hover = SubResource("StyleBoxTexture_yq6so")
+text = "Main Menu"
+icon = ExtResource("23_pm3ni")
+alignment = 0
+icon_alignment = 2
+expand_icon = true
+text_direction = 1
+
+[connection signal="pressed" from="Panel/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Panel/Button2" to="." method="_on_button_2_pressed"]

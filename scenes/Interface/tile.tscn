@@ -12,8 +12,29 @@ border_width_bottom = 1
 border_color = Color(0.6419339, 0.64193404, 0.64193374, 1)
 border_blend = true
 
-[node name="Tile" type="TextureButton"]
+[node name="Tile" type="Button"]
+offset_right = 8.0
+offset_bottom = 8.0
 script = ExtResource("1_njqp8")
+
+[node name="SpriteRegion" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -1.0
+offset_right = 116.0
+offset_bottom = 115.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_ffj8w")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NumberLabel" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
 
 [node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(62, 62)
@@ -49,6 +70,7 @@ vertical_alignment = 1
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
+offset_top = -1.0
 offset_right = 124.0
 offset_bottom = 124.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_cpm3r")
