@@ -1,38 +1,32 @@
 extends Node2D
 
-# --- 1. Variables ---
-
-# Preload the tile scene
 const TileScene = preload("res://scenes/Interface/tile.tscn")
 
-# --- NEW: Preload tile textures ---
-# Make sure you create these image files and save them at these paths!
 const TEX_START = preload("res://assets/start.png")
 const TEX_END = preload("res://assets/end.png")
 const TEX_PATH = preload("res://assets/path.png")
 const TEX_BLOCKER = preload("res://assets/blocker.png")
 
-# Define grid properties
+
 const GRID_WIDTH = 7
 const GRID_HEIGHT = 7
-const TILE_SIZE = 64 # Size of your tile art in pixels
+const TILE_SIZE = 64 
 
-# This holds the *logical* state of the grid
+
 var grid_data = []
 
-# This holds references to the *visual* tile nodes
 var tile_nodes = []
 
-# Variables for drag logic
+
 var is_dragging = false
 var drag_start_pos = Vector2.ZERO
-var dragged_object = null # The row (e.g., {"type": "row", "index": 3})
+var dragged_object = null 
 var drag_delta = Vector2.ZERO
 
-# --- 2. Setup (Roadmap: Grid System) ---
+
 
 func _ready():
-	# Keep the original layout for resetting
+
 	var initial_layout = [
 		["s", "p", "b", "b", "b", "p", "p"],
 		["p", "p", "p", "b", "p", "p", "p"],
@@ -45,21 +39,19 @@ func _ready():
 	
 	initialize_board(initial_layout)
 	
-	# Connect the reset button (assuming it's at this path)
 	get_node("UI/ResetButton").pressed.connect(_on_reset_pressed)
 
 
 func initialize_board(layout):
-	# Clear old data if any
+
 	grid_data = []
 	tile_nodes = []
 	for child in get_children():
 		child.queue_free()
 
-	# Create the logical grid
+
 	grid_data = layout.duplicate(true)
-	
-	# Create the visual grid
+
 	tile_nodes.resize(GRID_HEIGHT)
 	for y in range(GRID_HEIGHT):
 		tile_nodes[y] = []
@@ -68,49 +60,44 @@ func initialize_board(layout):
 			var tile_type = grid_data[y][x]
 			var new_tile = TileScene.instantiate()
 			
-			# Set tile position
 			new_tile.position = Vector2(x * TILE_SIZE, y * TILE_SIZE)
 			
-			# --- MODIFIED: Set tile texture ---
-			# This replaces the old pseudo-code
+
 			set_tile_texture(new_tile, tile_type)
-			
-			# Add to scene and keep reference
+
 			add_child(new_tile)
 			tile_nodes[y][x] = new_tile
 
-# --- 3. Input Handling (Roadmap: Core Mechanic) ---
+
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
-				# --- MOUSE DOWN ---
+
 				is_dragging = true
 				drag_start_pos = get_global_mouse_position()
 				drag_delta = Vector2.ZERO
 				
-				# Figure out what we're dragging
+
 				var grid_pos_vec = get_local_mouse_position() / TILE_SIZE
 				var grid_pos = Vector2i(int(grid_pos_vec.x), int(grid_pos_vec.y))
 				
-				# --- FIX: Add boundary check ---
 				if grid_pos.x < 0 or grid_pos.x >= GRID_WIDTH or grid_pos.y < 0 or grid_pos.y >= GRID_HEIGHT:
-					# Click was outside the grid, cancel the drag
+
 					is_dragging = false
 					dragged_object = null
-					return # Stop processing this input
+					return
 				
-				# If we are here, the click was inside the grid
+
 				dragged_object = {"type": null, "index": -1, "start_coord": grid_pos}
 				
 			else:
-				# --- MOUSE UP ---
+
 				if is_dragging:
 					is_dragging = false
 					
-					# --- Update the Grid (Roadmap: "Slide" Action) ---
-					# Determine the final slide based on drag_delta
+
 					var slide_amount = 0
 					if dragged_object.type == "row":
 						slide_amount = int(round(drag_delta.x / TILE_SIZE))
@@ -119,29 +106,29 @@ func _unhandled_input(event):
 						slide_amount = int(round(drag_delta.y / TILE_SIZE))
 						shift_col(dragged_object.index, slide_amount)
 					
-					# Redraw the board to snap tiles to new positions
+
 					redraw_board()
 					
-					# --- Check for Win (Roadmap: Win Condition) ---
+
 					check_win_condition()
 
 	if event is InputEventMouseMotion and is_dragging:
-		# --- MOUSE DRAG ---
+
 		drag_delta = event.position - drag_start_pos
 		
-		# Lock to horizontal or vertical drag on first significant move
-		if dragged_object.type == null and drag_delta.length() > 10: # 10px threshold
+
+		if dragged_object.type == null and drag_delta.length() > 10: 
 			if abs(drag_delta.x) > abs(drag_delta.y):
 				dragged_object.type = "row"
-				dragged_object.index = dragged_object.start_coord.y # Use the stored int
+				dragged_object.index = dragged_object.start_coord.y 
 			else:
 				dragged_object.type = "col"
-				dragged_object.index = dragged_object.start_coord.x # Use the stored int
+				dragged_object.index = dragged_object.start_coord.x 
 		
-		# Visually move the tiles with the mouse (with wraparound)
+
 		update_visual_drag()
 
-# --- 4. Core Logic Functions ---
+
 
 func update_visual_drag():
 	var grid_size_px = Vector2(GRID_WIDTH * TILE_SIZE, GRID_HEIGHT * TILE_SIZE)
@@ -150,7 +137,7 @@ func update_visual_drag():
 		var y = dragged_object.index
 		for x in range(GRID_WIDTH):
 			var base_x = x * TILE_SIZE
-			# Use fmod for smooth wrapping
+
 			var wrapped_x = fmod(base_x + drag_delta.x, grid_size_px.x)
 			if wrapped_x < 0:
 				wrapped_x += grid_size_px.x
@@ -160,13 +147,13 @@ func update_visual_drag():
 		var x = dragged_object.index
 		for y in range(GRID_HEIGHT):
 			var base_y = y * TILE_SIZE
-			# Use fmod for smooth wrapping
+
 			var wrapped_y = fmod(base_y + drag_delta.y, grid_size_px.y)
 			if wrapped_y < 0:
 				wrapped_y += grid_size_px.y
 			tile_nodes[y][x].position.y = wrapped_y
 
-# Roadmap: "Wraparound" logic for the logical array
+
 func shift_row(row_index, amount):
 	if amount == 0: return
 	
@@ -201,20 +188,20 @@ func shift_col(col_index, amount):
 	for y in range(GRID_HEIGHT):
 		grid_data[y][col_index] = new_col[y]
 
-# Redraws the visual board based on the logical grid_data
+
 func redraw_board():
 	for y in range(GRID_HEIGHT):
 		for x in range(GRID_WIDTH):
-			# This "snaps" the tiles to their new logical positions
+
 			tile_nodes[y][x].position = Vector2(x * TILE_SIZE, y * TILE_SIZE)
 			
-			# --- ADDED: Update sprites after a shift/reset ---
+
 			var tile_type = grid_data[y][x]
 			set_tile_texture(tile_nodes[y][x], tile_type)
 
-# Roadmap: Win Condition (Simple)
+
 func check_win_condition():
-	# Find start and end
+
 	var start_pos = null
 	var end_pos = null
 	for y in range(GRID_HEIGHT):
@@ -228,14 +215,14 @@ func check_win_condition():
 		print("Error: No start or end tile found!")
 		return
 
-	# Simple adjacency check (replace in Phase 2 with pathfinding)
+
 	if start_pos.distance_to(end_pos) == 1:
 		print("YOU WIN! (Simple Check)")
 		get_node("UI/WinMessage").visible = true
 	else:
 		get_node("UI/WinMessage").visible = false
 	
-# --- NEW: Helper function to set textures ---
+
 func set_tile_texture(tile_node, tile_type):
 	var sprite = tile_node.get_node("Sprite2D")
 	match tile_type:
@@ -248,12 +235,9 @@ func set_tile_texture(tile_node, tile_type):
 		"b":
 			sprite.texture = TEX_BLOCKER
 		_:
-			# Default or error case
+
 			sprite.texture = TEX_BLOCKER 
 func _on_reset_pressed():
-	print("Resetting board")
-	# This requires you to store the original layout
-	# For this prototype, we'll just re-call _ready's logic
 	var initial_layout = [
 		["s", "p", "b", "b", "b", "p", "p"],
 		["p", "p", "p", "b", "p", "p", "p"],

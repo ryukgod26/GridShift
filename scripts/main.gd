@@ -4,7 +4,6 @@ var tiles = []
 var solved = []
 var mouse = false
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	start_game()
 
@@ -24,8 +23,6 @@ func shuffle_tiles():
 			check_neighbours(rows,cols)
 			previous_1 = previous
 			previous = tile
-			
-			
 
 func _process(_delta):
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and mouse:
@@ -61,7 +58,7 @@ func check_neighbours(rows, cols):
 			empty = find_empty(new_pos,pos)
 			new_pos.x += 250
 		done = true
-			
+
 func find_empty(position,pos):
 	var new_rows = int(position.y / 250)
 	var new_cols = int(position.x / 250)
@@ -79,8 +76,7 @@ func swap_tiles(tile_src, tile_dst):
 	var temp_tile = tiles[tile_src]
 	tiles[tile_src] = tiles[tile_dst]
 	tiles[tile_dst] = temp_tile
-	
-	
+
 func _input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		mouse = event

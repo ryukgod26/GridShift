@@ -19,7 +19,7 @@ var tiles_animating := 0
 
 var move_count := 0
 var number_visible := true
-var background_texture: Texture2D = null # Type hint for clarity
+var background_texture: Texture2D = null
 
 var game_state := GAME_STATE.NOT_STARTED
 
@@ -28,14 +28,13 @@ signal game_won
 signal moves_updated
 
 func _ready():
-	# Use 'size' property directly, not get_size()
+
 	tile_size = floor(size.x / tsize)
-	# Use 'size' property directly, not set_size()
+
 	size = Vector2(tile_size * tsize, tile_size * tsize)
 	
 	gen_board()
 	
-	# Scramble the board on start, not on first click
 	scramble_board()
 	game_state = GAME_STATE.STARTED
 	emit_signal('game_started')
@@ -73,31 +72,25 @@ func gen_board():
 		board.append([])
 		for c in range(tsize):
 
-			# choose which is empty cell
 			if (value == tsize*tsize):
 				board[r].append(0)
 				empty = Vector2(c, r)
 			else:
 				board[r].append(value)
 
-				# --- GODOT 4 CHANGES ---
-				var tile = tile_sceme.instantiate() # Use .instantiate()
-				tile.position = Vector2(c * tile_size, r * tile_size) # Use .position
+				var tile = tile_sceme.instantiate() 
+				tile.position = Vector2(c * tile_size, r * tile_size) 
 				
-				# This assumes your 'tile_scene' has a child Label node named "NumberLabel"
 				tile.get_node("NumberLabel").text = str(value)
-				# Store the number in the tile's script
+
 				tile.number = value 
 				
 				if background_texture:
-					# Use 'texture_normal' for TextureButton
 					tile.texture_normal = background_texture 
 				
-				# Call the tile's custom setup function
 				tile.set_sprite(value-1, tsize, tile_size)
 				tile.set_number_visible(number_visible)
 				
-				# New signal connection syntax
 				tile.tile_pressed.connect(_on_Tile_pressed)
 				tile.slide_completed.connect(_on_Tile_slide_completed)
 				
@@ -111,13 +104,13 @@ func is_board_solved():
 	for r in range(tsize):
 		for c in range(tsize):
 			if (board[r][c] != count):
-				# This logic was slightly fixed for clarity
+
 				if (r == tsize - 1 and c == tsize - 1 and board[r][c] == 0):
 					return true
 				else:
 					return false
 			count += 1
-	# This case was never reached, but it is valid
+
 	return true 
 
 func print_board():
@@ -137,7 +130,7 @@ func value_to_grid(value):
 
 func get_tile_by_value(value):
 	for tile in tiles:
-		if tile.number == value: # Compare int to int
+		if tile.number == value:
 			return tile
 	return null
 
@@ -145,7 +138,6 @@ func _on_Tile_pressed(number):
 	if is_animating:
 		return
 
-	# This logic is fine, but we'll restart if the game is won
 	if game_state == GAME_STATE.NOT_STARTED:
 		scramble_board()
 		game_state = GAME_STATE.STARTED
@@ -167,12 +159,12 @@ func _on_Tile_pressed(number):
 
 	var dir = Vector2(sign(tile_pos.x - empty.x), sign(tile_pos.y - empty.y))
 
-	# This logic is much simpler: just slide tiles between empty and the click
-	if tile_pos.y == empty.y: # Horizontal slide
+
+	if tile_pos.y == empty.y: 
 		var y = tile_pos.y
 		var start_x = empty.x
 		var end_x = tile_pos.x
-		var slide_dir = -sign(dir.x) # Direction the *empty* space moves
+		var slide_dir = -sign(dir.x)
 		
 		for x in range(start_x, end_x, slide_dir):
 			var val = board[y][x + slide_dir]
@@ -185,11 +177,11 @@ func _on_Tile_pressed(number):
 			is_animating = true
 			tiles_animating += 1
 			
-	elif tile_pos.x == empty.x: # Vertical slide
+	elif tile_pos.x == empty.x: 
 		var x = tile_pos.x
 		var start_y = empty.y
 		var end_y = tile_pos.y
-		var slide_dir = -sign(dir.y) # Direction the *empty* space moves
+		var slide_dir = -sign(dir.y) 
 
 		for y in range(start_y, end_y, slide_dir):
 			var val = board[y + slide_dir][x]
@@ -205,8 +197,7 @@ func _on_Tile_pressed(number):
 	move_count += 1
 	emit_signal("moves_updated", move_count)
 
-	# check win
-	if tiles_animating == 0: # Only check for win if no tiles are moving
+	if tiles_animating == 0:
 		var is_solved = is_board_solved()
 		if is_solved:
 			game_state = GAME_STATE.WON
@@ -241,10 +232,9 @@ func scramble_board():
 	reset_board()
 
 	var temp_flat_board = []
-	for i in range(tsize*tsize): # Simpler creation
+	for i in range(tsize*tsize): 
 		temp_flat_board.append(i)
 
-	# No 'randomize()' needed in Godot 4
 	temp_flat_board.shuffle()
 
 	var is_solvable = is_board_solvable(temp_flat_board)
@@ -277,14 +267,14 @@ func reset_board():
 
 func set_tile_position(r: int, c: int, val: int):
 	var object: TextureButton = get_tile_by_value(val)
-	if object: # Add a check in case tile isn't found
-		object.position = Vector2(c, r) * tile_size # Use .position
+	if object: 
+		object.position = Vector2(c, r) * tile_size 
 
 func _on_Tile_slide_completed(_number):
 	tiles_animating -= 1
 	if tiles_animating == 0:
 		is_animating = false
-		# Check for win *after* animation is done
+
 		var is_solved = is_board_solved()
 		if is_solved:
 			game_state = GAME_STATE.WON
@@ -297,18 +287,18 @@ func reset_move_count():
 func set_tile_numbers(state):
 	number_visible = state
 	for tile in tiles:
-		tile.set_number_visible(state) # Call custom function on tile
+		tile.set_number_visible(state) 
 
 func update_size(new_size):
 	tsize = int(new_size)
 	print('updating board size ', tsize)
 
-	tile_size = floor(size.x / tsize) # use 'size'
+	tile_size = floor(size.x / tsize) 
 	for tile in tiles:
 		tile.queue_free()
 	tiles = []
 	gen_board()
-	# Scramble the new board
+
 	scramble_board()
 	game_state = GAME_STATE.STARTED
 	reset_move_count()
@@ -318,7 +308,6 @@ func update_size(new_size):
 func update_background_texture(texture):
 	background_texture = texture
 	for tile in tiles:
-		tile.texture_normal = texture # Use 'texture_normal'
-		# Call 'set_sprite' again to update the region
+		tile.texture_normal = texture 
 		var value = tile.number - 1
 		tile.set_sprite(value, tsize, tile_size)
