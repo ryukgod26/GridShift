@@ -128,7 +128,7 @@ theme_override_fonts/font = ExtResource("18_jscy8")
 theme_override_font_sizes/font_size = 225
 text = "You Win"
 
-[node name="Button" type="Button" parent="Panel"]
+[node name="restart" type="Button" parent="Panel"]
 layout_mode = 0
 offset_left = 162.0
 offset_top = 408.0
@@ -146,7 +146,7 @@ icon_alignment = 2
 expand_icon = true
 text_direction = 1
 
-[node name="Button2" type="Button" parent="Panel"]
+[node name="main_menu" type="Button" parent="Panel"]
 layout_mode = 0
 offset_left = 169.0
 offset_top = 647.0
@@ -164,5 +164,5 @@ icon_alignment = 2
 expand_icon = true
 text_direction = 1
 
-[connection signal="pressed" from="Panel/Button" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="Panel/Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="Panel/restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="Panel/main_menu" to="." method="_on_main_menu_pressed"]

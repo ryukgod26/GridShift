@@ -59,9 +59,9 @@ func check_neighbours(rows, cols):
 			new_pos.x += 250
 		done = true
 
-func find_empty(position,pos):
-	var new_rows = int(position.y / 250)
-	var new_cols = int(position.x / 250)
+func find_empty(tile_position,pos):
+	var new_rows = int(tile_position.y / 250)
+	var new_cols = int(tile_position.x / 250)
 	var new_pos = new_rows * 4 + new_cols
 	if tiles[new_pos] == $Tile16:
 		swap_tiles(pos, new_pos)
@@ -84,10 +84,8 @@ func _input_event(_viewport, event, _shape_idx):
 func Player_won():
 	$Panel.visible = true
 
-
-func _on_button_pressed() -> void:
+func _on_restart_pressed() -> void:
 	get_tree().reload_current_scene()
 
-
-func _on_button_2_pressed() -> void:
+func _on_main_menu_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/Interface/main_menu.tscn")

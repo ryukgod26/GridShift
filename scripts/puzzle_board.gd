@@ -33,11 +33,10 @@ func _ready():
 
 	size = Vector2(tile_size * tsize, tile_size * tsize)
 	
-	gen_board()
-	
+	generate_board()
 	scramble_board()
 	game_state = GAME_STATE.STARTED
-	emit_signal('game_started')
+	game_started.emit()
 
 
 func _process(_delta):
@@ -65,7 +64,7 @@ func _process(_delta):
 		_on_Tile_pressed(tile_pressed)
 
 
-func gen_board():
+func generate_board():
 	var value = 1
 	board = []
 	for r in range(tsize):
@@ -113,13 +112,6 @@ func is_board_solved():
 
 	return true 
 
-func print_board():
-	print('------board------')
-	for r in range(tsize):
-		var row = ''
-		for c in range(tsize):
-			row += str(board[r][c]).pad_zeros(2) + ' '
-		print(row)
 
 func value_to_grid(value):
 	for r in range(tsize):
@@ -141,14 +133,14 @@ func _on_Tile_pressed(number):
 	if game_state == GAME_STATE.NOT_STARTED:
 		scramble_board()
 		game_state = GAME_STATE.STARTED
-		emit_signal('game_started')
+		game_started.emit()
 		return
 	
 	if game_state == GAME_STATE.WON:
 		game_state = GAME_STATE.STARTED
 		reset_move_count()
 		scramble_board()
-		emit_signal('game_started')
+		game_started.emit()
 		return
 
 	var tile_pos = value_to_grid(number)
@@ -195,13 +187,13 @@ func _on_Tile_pressed(number):
 			tiles_animating += 1
 
 	move_count += 1
-	emit_signal("moves_updated", move_count)
+	moves_updated.emit(move_count)
 
 	if tiles_animating == 0:
 		var is_solved = is_board_solved()
 		if is_solved:
 			game_state = GAME_STATE.WON
-			emit_signal("game_won")
+			game_won.emit()
 
 func is_board_solvable(flat):
 	var parity = 0
@@ -275,14 +267,14 @@ func _on_Tile_slide_completed(_number):
 	if tiles_animating == 0:
 		is_animating = false
 
-		var is_solved = is_board_solved()
-		if is_solved:
+		var won = is_board_solved()
+		if won:
 			game_state = GAME_STATE.WON
-			emit_signal("game_won")
+			game_won.emit()
 
 func reset_move_count():
 	move_count = 0
-	emit_signal("moves_updated", move_count)
+	moves_updated.emit(move_count)
 
 func set_tile_numbers(state):
 	number_visible = state
@@ -297,12 +289,11 @@ func update_size(new_size):
 	for tile in tiles:
 		tile.queue_free()
 	tiles = []
-	gen_board()
-
+	generate_board()
 	scramble_board()
 	game_state = GAME_STATE.STARTED
 	reset_move_count()
-	emit_signal('game_started')
+	game_started.emit()
 
 
 func update_background_texture(texture):

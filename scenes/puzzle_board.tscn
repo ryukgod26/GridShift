@@ -12,3 +12,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_27lmo")
 tile_sceme = ExtResource("2_l2r6c")
+
+[node name="NumberLabel" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
